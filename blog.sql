@@ -3,7 +3,7 @@ CREATE DATABASE myBlog;
 
 \c myBlog;
 
-CREATE TABLE myBlogEntry (
+CREATE TABLE blogEntries (
   ID SERIAL PRIMARY KEY,
   subject VARCHAR,
   msg VARCHAR
