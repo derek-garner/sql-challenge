@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="utf-8">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+       <link rel="stylesheet" type="text/css" href="/styles.css"/>
+      
+</head>
+<body>
+<h1>Welcome to my blog!!</h1>
+
+<table align="center" border="0" cellPadding="6">
+     <% data.forEach(function(currentRec){ %>
+      <tr>
+            <td class="subText" align="right">Subject: </td>
+            <td align="left"><%=currentRec.subject %></td>
+      </tr>
+      <tr>
+            <td class="subText" align="left"colspan=2>Message: </td>
+            
+      </tr>
+      <tr>
+            <td align="left" colspan=2 ><%=currentRec.message%></td>
+      </tr>
+      <tr><td>&nbsp;</td></tr>
+             <tr>
+             <td align="center" colspan="2" >
+
+                   <a href='/data/new'>New Post</a> |     
+                   <a href='/data/<%=currentRec.id%>/show'>Show Post</a>   |  
+                   <a href='/data/<%=currentRec.id%>/edit'>Edit Post</a>    
+                   </td>
+       </tr>   
+                 
+      <%});%>
+        
+                   
+
+</table>
+
+</body>
+</html>

@@ -11,13 +11,12 @@ var options={
   promiseLib: promise
 };
 
-var pgp = require('pg-promise')(options);
+var pgp = require('pg-promise')();
 
-var db = pgp('postgres://localhost:5432/blog');
+var db = pgp('postgres://postgres:postgres@localhost:5432/blog');
 
-var routes = require('./routes/index');
 
-app.use('/', routes);
+
 app.set('port',process.env.PORT||3000);
 app.listen(app.get('port'),function(){
     console.log("Express started press Ctrl+C to terminate");
@@ -29,11 +28,13 @@ app.use(bodyParser.urlencoded({
     extended:false
 }));
 
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
+app.set('view engine','ejs');
+
+app.set('views', __dirname+'/views');
+/*
 app.get('/',function(req,res){
-    res.render(path.join(__dirname+'/views/index.html'));
-});
+    res.render(path.join(__dirname+'/views/index.ejs'));
+});*/
  
 
 // for your routes to know where to know if there is param _method DELETE
@@ -48,9 +49,9 @@ app.use( function( req, res, next ) {
   next();
 });
 
-// getting all the users
+// getting all the blog entries
 app.get('/', function(req,res,next){
-  db.any('SELECT * FROM myBlogEntries')
+  db.any('SELECT * FROM blogEntries')
     .then(function(data){
       return res.render('index', {data: data})
     })
@@ -59,21 +60,24 @@ app.get('/', function(req,res,next){
     });
 });
 
-// edit users
-app.get('/users/:id/edit', function(req,res,next){
+// edit blog entry
+app.get('/data/:id/edit', function(req,res,next){
+// console.log("select post");
   var id = parseInt(req.params.id);
-  db.one('select * from myBlogEntries where id = $1', id)
-    .then(function (user) {
-      res.render('edit', {user: user})
+  db.one('select * from blogEntries where id = $1', id)
+    .then(function (data) {
+      res.render('edit', {data: data})
     })
     .catch(function (err) {
       return next(err);
     });
 });
 
-app.post('/users/:id/edit', function(req,res,next){
-  db.none('insert into myBlogEntries (subject,msg) values ($1,$2)',
-    [req.body.subject, req.body.email])
+app.post('/data/:id/edit', function(req,res,next){
+//  console.log("inside edit post function");
+  
+  db.none('update blogEntries set subject=$1, message=$2 where id=$3',
+    [req.body.subjectLine, req.body.messageTxt, parseInt(req.params.id)])
     .then(function () {
       res.redirect('/');
     })
@@ -82,9 +86,13 @@ app.post('/users/:id/edit', function(req,res,next){
     });
 });
 
-app.post('/users/:id/edit', function(req,res,next){
-  db.none('update myBlogEntries set subject=$1, msg=$2',
-    [req.body.subject, req.body.msg])
+app.get('/data/new', function(req,res,next){
+      res.render('new');
+});
+
+app.post('/data/new', function(req,res,next){
+  db.none('insert into blogEntries (subject,message) values ($1,$2)',
+    [req.body.subjectLine, req.body.messageTxt])
     .then(function () {
       res.redirect('/');
     })
@@ -93,9 +101,24 @@ app.post('/users/:id/edit', function(req,res,next){
     });
 });
 
-app.delete('/users/:id', function(req, res, next){
+app.get('/data/:id/show', function(req,res,next){
+ //console.log("select post");
   var id = parseInt(req.params.id);
-  db.result('delete from myBlogEntries where id = $1', id)
+  db.one('select * from blogEntries where id = $1', id)
+    .then(function (data) {
+      res.render('show', {data: data})
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+});
+
+
+app.delete('/data/:id', function(req, res, next){
+ console.log("delete post");
+ 
+  var id = parseInt(req.params.id);
+  db.result('delete from blogEntries where id = $1', id)
     .then(function (result) {
       res.redirect('/');
     })
@@ -104,6 +127,4 @@ app.delete('/users/:id', function(req, res, next){
     });
 });
 
-app.listen(3000, function(){
-  console.log('Application running on localhost on port 3000');
-});
+

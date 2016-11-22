@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+      <meta charset="utf-8">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <link rel="stylesheet" href="/styles.css">
+      <script rel="text/javascript" src="js/app.js"></script>
+</head>
+<body>
+       <h1>View Post</h1>
+ <form method="delete" name="MessageEdit" id="MessageEdit" action="/data/<%=data.id%>/show">
+<table  align="center">
+      <tr>
+          <td> Subject: </td> 
+        <td>  <%=data.subject %></td> 
+         </tr>
+         <tr>
+            <td> Message: </td> 
+            <td><%=data.message%></td> 
+          </tr>
+          <tr>
+                <td colspan="2" align="center"><input type="submit" value="Delete"></td>
+                
+          </tr>
+</table>
+            </form>   
+              <a href='/' > Home</a> 
+</body>
+</html>

@@ -1,13 +1,13 @@
-DROP DATABASE IF EXISTS myBlog;
-CREATE DATABASE myBlog;
+DROP DATABASE IF EXISTS blog;
+CREATE DATABASE blog;
 
 \c myBlog;
 
 CREATE TABLE blogEntries (
   ID SERIAL PRIMARY KEY,
   subject VARCHAR,
-  msg VARCHAR
+  message VARCHAR
 );
 
-INSERT INTO blogEntry (subject, msg)
-  VALUES ('TestSubject', 'TestMsg');
+INSERT INTO blogEntries (subject, message)
+  VALUES ('TestSubject', 'Testmessage');
