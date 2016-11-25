@@ -10,33 +10,33 @@
 <h1>Welcome to my blog!!</h1>
 
 <table align="center" border="0" cellPadding="6">
-     <% data.forEach(function(currentRec){ %>
+     <% data.forEach(function(data){ %>
       <tr>
             <td class="subText" align="right">Subject: </td>
-            <td align="left"><%=currentRec.subject %></td>
+            <td align="left"><%=data.subject %></td>
       </tr>
       <tr>
             <td class="subText" align="left"colspan=2>Message: </td>
             
       </tr>
       <tr>
-            <td align="left" colspan=2 ><%=currentRec.message%></td>
+            <td align="left" colspan=2 ><%=data.message%></td>
       </tr>
       <tr><td>&nbsp;</td></tr>
              <tr>
              <td align="center" colspan="2" >
 
-                   <a href='/data/new'>New Post</a> |     
-                   <a href='/data/<%=currentRec.id%>/show'>Show Post</a>   |  
-                   <a href='/data/<%=currentRec.id%>/edit'>Edit Post</a>    
+                       
+                   <a href='/data/<%=data.id%>/show'>Show Post</a> | 
+                   <a href='/data/<%=data.id%>/edit'>Edit Post</a>   
+                    <a href="/data/<%=data.id%>/delete">Delete</a> 
                    </td>
        </tr>   
-                 
+                  
       <%});%>
         
-                   
-
 </table>
-
+<a href='/data/new'>New Post</a> 
 </body>
+<script src="./app.js"</script>
 </html>

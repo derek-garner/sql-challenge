@@ -49,8 +49,12 @@ app.use( function( req, res, next ) {
   next();
 });
 
+
+
+
 // getting all the blog entries
 app.get('/', function(req,res,next){
+  
   db.any('SELECT * FROM blogEntries')
     .then(function(data){
       return res.render('index', {data: data})
@@ -113,10 +117,8 @@ app.get('/data/:id/show', function(req,res,next){
     });
 });
 
-
-app.delete('/data/:id', function(req, res, next){
- console.log("delete post");
- 
+app.get('/data/:id/delete', function(req, res, next){
+ // console.log("DELETE POST");
   var id = parseInt(req.params.id);
   db.result('delete from blogEntries where id = $1', id)
     .then(function (result) {
@@ -126,5 +128,6 @@ app.delete('/data/:id', function(req, res, next){
       return next(err);
     });
 });
+
 
 
